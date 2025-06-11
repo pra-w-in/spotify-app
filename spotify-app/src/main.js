@@ -1,18 +1,41 @@
-const { invoke } = window.__TAURI__.core;
+// Basic interactivity
+document.addEventListener('DOMContentLoaded', function () {
+    // Play button toggle
+    const playBtn = document.querySelector('.play-btn');
+    playBtn.addEventListener('click', function () {
+        const icon = this.querySelector('i');
+        icon.classList.toggle('fa-play');
+        icon.classList.toggle('fa-pause');
+    });
 
-let greetInputEl;
-let greetMsgEl;
+    // Card hover effect
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function () {
+            this.style.transform = 'scale(1.03)';
+            this.style.transition = 'transform 0.3s ease';
+        });
 
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsgEl.textContent = await invoke("greet", { name: greetInputEl.value });
-}
+        card.addEventListener('mouseleave', function () {
+            this.style.transform = 'scale(1)';
+        });
+    });
 
-window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
+    // Like button toggle
+    const likeBtn = document.querySelector('.player-like');
+    likeBtn.addEventListener('click', function () {
+        const icon = this.querySelector('i');
+        icon.classList.toggle('far');
+        icon.classList.toggle('fas');
+        icon.style.color = icon.classList.contains('fas') ? '#1DB954' : '#b3b3b3';
+    });
+
+    // Navigation item active toggle
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function () {
+            navItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
 });
